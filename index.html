@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabhan Furniture - Signature Model Franchise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            width: 100%;
+            height: 350px; /* Default height for charts */
+            max-width: 600px; /* Max width for charts */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .bg-brand-primary { background-color: #044222; }
+        .text-brand-primary { color: #044222; }
+        .bg-brand-secondary { background-color: #E1A931; }
+        .text-brand-secondary { color: #E1A931; }
+        .bg-brand-light { background-color: #F5F3EF; }
+        .tab-button {
+            background-color: #F0EFEA;
+            color: #044222;
+            border-color: #DCD9D0;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .tab-button.active {
+            background-color: #044222;
+            color: #FFFFFF;
+            border-color: #044222;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-brand-light">
+
+    <!-- Fixed Header Banner -->
+    <header class="fixed top-0 left-0 w-full bg-white/20 backdrop-blur-lg shadow-md z-50 py-1 md:py-2 text-center">
+        <img src="https://i.postimg.cc/Hnm6dFkZ/Sabhan-Furniture-Interior-Logo-png.png" alt="Sabhan Furniture & Interiors Logo" class="mx-auto h-12 sm:h-16 md:h-20 lg:h-24">
+    </header>
+
+    <main class="pt-24 sm:pt-28 md:pt-36 lg:pt-44"> <!-- Adjusted padding-top to prevent content from going under fixed header -->
+        <!-- Hero Section -->
+        <section class="bg-white text-center py-20 px-4">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4 text-brand-primary">The Signature Showroom Model</h1>
+            <p class="text-xl md:text-2xl text-gray-700">Your Comprehensive Path to Furniture Retail Success in Kerala</p>
+            <div class="mt-8">
+                <a href="#overview" class="bg-brand-primary text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-green-800 transition shadow-lg mr-4">Explore Model</a>
+                <a href="#roi-calculator" class="bg-brand-secondary text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-yellow-600 transition shadow-lg">Calculate Your ROI</a>
+            </div>
+        </section>
+
+        <!-- Model Overview & USPs -->
+        <section id="overview" class="py-16 px-4 md:px-8">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-brand-primary mb-4">Signature Model: Enhanced Experience, Broader Appeal</h2>
+                <p class="text-lg text-gray-600 mb-12">The Signature Showroom is our most popular model, offering a comprehensive display and broader range of products to enhance customer experience in prime market locations.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto text-center">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div class="text-5xl text-brand-secondary mb-4">📏</div>
+                    <h3 class="text-xl font-bold text-gray-800">Showroom Size</h3>
+                    <p class="text-gray-600 mt-2">Min. 12,000 sqft</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div class="text-5xl text-brand-secondary mb-4">🛋️</div>
+                    <h3 class="text-xl font-bold text-gray-800">Broader Inventory</h3>
+                    <p class="text-gray-600 mt-2">Includes furniture, sofas, decor, and home furnishings like bed sheets, carpets, etc.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div class="text-5xl text-brand-secondary mb-4">📈</div>
+                    <h3 class="text-xl font-bold text-gray-800">Prime Market Appeal</h3>
+                    <p class="text-gray-600 mt-2">Designed for high-traffic, competitive markets with diverse customer needs.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Breakdown -->
+        <section class="bg-white py-16 px-4 md:px-8">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-brand-primary mb-4">Signature Showroom: Investment Breakdown</h2>
+                <p class="text-lg text-gray-600 mb-12">Understand where your total initial investment of ₹1.30 Crore is allocated.</p>
+            </div>
+            <div class="flex justify-center">
+                <div class="chart-container">
+                    <canvas id="investmentBreakdownChart"></canvas>
+                </div>
+            </div>
+            <p class="text-center mt-8 text-sm text-gray-500 max-w-4xl mx-auto">Important Note: License Fee is ₹8 Lakhs for the first 5 investors. After the first 5 investors, the License Fee will be ₹20 Lakhs. Costs are estimates and may vary based on your chosen location.</p>
+        </section>
+
+        <!-- ROI Calculator -->
+        <section id="roi-calculator" class="py-16 px-4 md:px-8 bg-brand-light">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-brand-primary mb-4">Project Your ROI: What If Scenarios</h2>
+                <p class="text-lg text-gray-600 mb-12">The Signature Showroom is projected to offer **12% plus return**. Use our interactive calculator to see potential cumulative investor profit over 5 years based on different average monthly sales scenarios.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+                <div class="mb-8 text-center">
+                    <label for="salesScenario" class="block text-xl font-semibold text-brand-primary mb-4">Select Monthly Sales Scenario:</label>
+                    <div class="flex justify-center space-x-4">
+                        <button class="tab-button active" data-scenario="average">Average Sales (₹50 Lakhs)</button>
+                        <button class="tab-button" data-scenario="medium">Medium Sales (₹70 Lakhs)</button>
+                        <button class="tab-button" data-scenario="high">High Sales (₹90 Lakhs)</button>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="roiProjectionChart"></canvas>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <p class="text-lg text-gray-700">Projected Cumulative Investor Profit over 5 years:</p>
+                    <p id="cumulativeProfitDisplay" class="text-3xl font-bold text-brand-secondary mt-2">₹0</p>
+                    <p class="text-sm text-gray-500 mt-4">Projections are estimates. Actual results may vary. Opportunity to break even the total investment in approximately 5 years.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Sabhan - Adapted from Infographic for Signature Model context -->
+        <section class="bg-white py-16 px-4 md:px-8">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-brand-primary mb-12">Why Choose Sabhan: Your Strategic Advantages</h2>
+                <p class="text-lg text-gray-600 mb-8">Sabhan Furniture’s established brand, comprehensive product range, and proven support system ensure your Signature Showroom thrives in competitive markets.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div class="flex items-start space-x-4">
+                    <div class="bg-brand-secondary text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center text-2xl font-bold">✓</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Safest Investment Option</h3>
+                        <p class="text-gray-600 mt-1">Low money at risk; franchisor owns inventory & assets with clear exit strategy.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="bg-brand-secondary text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center text-2xl font-bold">✓</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Proven & Successful FOCO Model</h3>
+                        <p class="text-gray-600 mt-1">We handle all operations; you reap up to 70% of the net profit.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="bg-brand-secondary text-white rounded-full h-12 w-12 flex-shrink-0 flex items-center justify-center text-2xl font-bold">✓</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Strong Brand Reputation</h3>
+                        <p class="text-gray-600 mt-1">Benefit from a trusted name with a decade of goodwill in Kerala.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="bg-brand-primary py-20 px-4 text-center text-white">
+            <h2 class="text-4xl font-bold">Ready to Launch Your Signature Showroom?</h2>
+            <p class="text-xl mt-4 text-gray-300 max-w-3xl mx-auto">Take the next step. Schedule a personalized meeting to discuss your location and explore how the Signature Model can deliver strong returns for you.</p>
+            <div class="mt-8">
+                <a href="tel:9072698111" class="bg-brand-secondary text-white font-bold py-4 px-8 rounded-lg text-xl inline-block hover:bg-yellow-500 transition-colors mr-4">Contact Franchisee Manager: 9072698111</a>
+                <a href="https://wa.me/919072698111" target="_blank" class="bg-green-500 text-white font-bold py-4 px-8 rounded-lg text-xl inline-block hover:bg-green-600 transition-colors">WhatsApp Us</a>
+                <p class="mt-4 text-gray-400">Visit our website: <a href="https://www.sabhan.in" target="_blank" class="underline hover:text-white">www.sabhan.in</a></p>
+                <p class="mt-2 text-gray-400">Or email: <a href="mailto:info@sabhan.in?subject=Signature%20Model%20Franchise%20Inquiry" class="underline hover:text-white">info@sabhan.in</a> (Subject Line: Signature Model Franchisee)</p>
+            </div>
+        </section>
+
+        <!-- Social Media Poster -->
+        <section class="py-16 px-4 md:px-8 bg-brand-light">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-brand-primary mb-8">Thank You for Your Interest!</h2>
+                <p class="text-lg text-gray-600 mb-12">We appreciate your time and consideration. Here's a quick summary and our contact details for your convenience.</p>
+                <img src="https://i.postimg.cc/R0dXTgS2/Poster-franchisee-sm.png" alt="Social Media Franchisee Poster" class="w-full max-w-2xl mx-auto rounded-xl shadow-lg">
+            </div>
+        </section>
+    </main>
+<script>
+    // Utility function to wrap long labels for Chart.js
+    function wrapLabels(label, maxLength) {
+        if (label.length <= maxLength) {
+            return label;
+        }
+        const words = label.split(' ');
+        let currentLine = '';
+        const lines = [];
+        for (const word of words) {
+            if ((currentLine + ' ' + word).trim().length > maxLength) {
+                lines.push(currentLine.trim());
+                currentLine = word;
+            } else {
+                currentLine = (currentLine + ' ' + word).trim();
+            }
+        }
+        if (currentLine) {
+            lines.push(currentLine.trim());
+        }
+        return lines;
+    }
+
+    // Mandatory Tooltip Configuration for all charts
+    const tooltipConfig = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        return Array.isArray(label) ? label.join(' ') : label;
+                    }
+                }
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    boxWidth: 15,
+                    padding: 20
+                }
+            }
+        }
+    };
+
+    // Chart Colors (consistent with main infographic)
+    const chartColors = ['#044222', '#2a623d', '#E1A931', '#f7c96f', '#6c757d', '#adb5bd', '#b0c4b1'];
+
+    // Investment Breakdown Data for Signature Model
+    const signatureInvestmentData = {
+        labels: [wrapLabels('Initial Inventory', 16), wrapLabels('Showroom Setup Cost', 16), wrapLabels('Lease Advance', 16), wrapLabels('Working Capital Fund', 16), wrapLabels('Inauguration Expenses', 16), wrapLabels('License Fee', 16)],
+        values: [6000000, 2900000, 1200000, 1000000, 1100000, 800000]
+    };
+
+    // Investment Breakdown Chart
+    const investmentBreakdownCtx = document.getElementById('investmentBreakdownChart').getContext('2d');
+    new Chart(investmentBreakdownCtx, {
+        type: 'doughnut',
+        data: {
+            labels: signatureInvestmentData.labels,
+            datasets: [{
+                data: signatureInvestmentData.values,
+                backgroundColor: chartColors,
+                borderColor: '#ffffff',
+                borderWidth: 2,
+            }]
+        },
+        options: { ...tooltipConfig, maintainAspectRatio: false, cutout: '60%' }
+    });
+
+    // ROI Calculation Logic
+    const ROI_CONFIG = {
+        totalInvestment: 13000000, // Signature Model Total Initial Investment
+        opexPercent: 0.16, // Fixed at 16%
+        nonOpexPercent: 0.02, // Added as 2%
+        marketingSpendMonthly: 100000, // 1 Lakh monthly marketing spend
+        gpMargin: 0.375, // Maintained at 37.5% (midpoint of 35-40%)
+        investorProfitShare: 0.70, // Investor's Share of Net Profit is up to 70%.
+        royaltyRate: 0.07, // Royalty is at just 7% of Gross Sales
+        gstRate: 0.18 // Assumed GST rate for calculations (18%)
+    };
+
+    const salesScenarios = {
+        average: 5000000, // ₹50 Lakhs/month (Total collected including GST)
+        medium: 7000000, // ₹70 Lakhs/month (Total collected including GST)
+        high: 9000000 // ₹90 Lakhs/month (Total collected including GST)
+    };
+
+    function calculateROI(monthlyRevenueIncludingGST) {
+        const data = [];
+        let cumulativeProfit = 0;
+
+        for (let year = 1; year <= 5; year++) {
+            // Calculate annual revenue EXCLUDING GST
+            const annualRevenueExcludingGST = (monthlyRevenueIncludingGST / (1 + ROI_CONFIG.gstRate)) * 12;
+
+            const annualGrossProfit = annualRevenueExcludingGST * ROI_CONFIG.gpMargin;
+            const annualOpex = annualRevenueExcludingGST * ROI_CONFIG.opexPercent;
+            const annualMarketing = ROI_CONFIG.marketingSpendMonthly * 12;
+            const annualNonOpex = annualRevenueExcludingGST * ROI_CONFIG.nonOpexPercent;
+            const annualRoyalty = annualRevenueExcludingGST * ROI_CONFIG.royaltyRate;
+            
+            const annualNetProfit = annualGrossProfit - annualOpex - annualMarketing - annualNonOpex - annualRoyalty;
+            const investorShare = annualNetProfit * ROI_CONFIG.investorProfitShare;
+            
+            cumulativeProfit += investorShare;
+            data.push(cumulativeProfit);
+        }
+        return data;
+    }
+
+    // ROI Projection Chart
+    const roiProjectionCtx = document.getElementById('roiProjectionChart').getContext('2d');
+    let roiChart;
+
+    function formatCurrency(value) {
+        return `₹${(value / 100000).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Lakhs`;
+    }
+
+    function updateRoiChart(scenario) {
+        const monthlyRevenue = salesScenarios[scenario];
+        const roiData = calculateROI(monthlyRevenue);
+        const cumulativeFinalProfit = roiData[roiData.length - 1];
+
+        document.getElementById('cumulativeProfitDisplay').textContent = formatCurrency(cumulativeFinalProfit);
+
+        if (roiChart) {
+            roiChart.data.datasets[0].data = roiData;
+            roiChart.update();
+        } else {
+            roiChart = new Chart(roiProjectionCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                    datasets: [{
+                        label: 'Cumulative Investor Profit',
+                        data: roiData,
+                        fill: true,
+                        backgroundColor: 'rgba(225, 169, 49, 0.1)', // E1A931 with opacity
+                        borderColor: '#E1A931',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointBackgroundColor: '#E1A931',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `Cumulative Profit: ${formatCurrency(context.raw)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: (value) => `${formatCurrency(value).replace(' Lakhs', 'L')}`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    // Event listeners for ROI scenario buttons
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            updateRoiChart(button.dataset.scenario);
+        });
+    });
+
+    // Initial load for ROI chart
+    updateRoiChart('average');
+
+</script>
+</body>
+</html>
