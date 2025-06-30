@@ -47,6 +47,22 @@
             border-color: #044222;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        .financial-table th, .financial-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+        .financial-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+        .financial-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+        .text-investor { color: #044222; }
+        .text-franchisor { color: #E1A931; }
     </style>
 </head>
 <body class="bg-brand-light">
@@ -83,11 +99,11 @@
                 <div class="bg-white p-6 rounded-xl shadow-lg">
                     <div class="text-5xl text-brand-secondary mb-4">🛋️</div>
                     <h3 class="text-xl font-bold text-gray-800">Broader Inventory</h3>
-                    <p class="text-gray-600 mt-2">Includes furniture, sofas, decor, and home furnishings like bed sheets, carpets, etc.</p>
+                    <p class="text-gray-600 mt-2">Includes furniture, sofas, decor, and home furnishings like bed sheets, carpets, clocks, and statues.</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <div class="text-5xl text-brand-secondary mb-4">📈</div>
-                    <h3 class="text-xl font-bold text-gray-800">Prime Market Appeal</h3>
+                    <div class="text-5xl text-brand-secondary mb-4">🎯</div>
+                    <h3 class="text-xl font-bold text-gray-800">Prime Market Focus</h3>
                     <p class="text-gray-600 mt-2">Designed for high-traffic, competitive markets with diverse customer needs.</p>
                 </div>
             </div>
@@ -97,7 +113,7 @@
         <section class="bg-white py-16 px-4 md:px-8">
             <div class="text-center max-w-4xl mx-auto">
                 <h2 class="text-4xl font-bold text-brand-primary mb-4">Signature Showroom: Investment Breakdown</h2>
-                <p class="text-lg text-gray-600 mb-12">Understand where your total initial investment of ₹1.30 Crore is allocated.</p>
+                <p class="text-lg text-gray-600 mb-12">Understand where your total initial investment of ₹1.32 Crore is allocated.</p>
             </div>
             <div class="flex justify-center">
                 <div class="chart-container">
@@ -129,9 +145,9 @@
                 </div>
 
                 <div class="mt-8 text-center">
-                    <p class="text-lg text-gray-700">Projected Cumulative Investor Profit over 5 years:</p>
-                    <p id="cumulativeProfitDisplay" class="text-3xl font-bold text-brand-secondary mt-2">₹0</p>
-                    <p class="text-sm text-gray-500 mt-4">Projections are estimates. Actual results may vary. Opportunity to break even the total investment in approximately 5 years.</p>
+                    <p class="text-lg text-gray-700 mt-4">Projected Break-even Time:</p>
+                    <p id="breakEvenDisplay" class="text-3xl font-bold text-brand-primary mt-2">Calculating...</p>
+                    <p class="text-sm text-gray-500 mt-4">Projections are estimates. Actual results may vary.</p>
                 </div>
             </div>
         </section>
@@ -236,10 +252,10 @@
     // Chart Colors (consistent with main infographic)
     const chartColors = ['#044222', '#2a623d', '#E1A931', '#f7c96f', '#6c757d', '#adb5bd', '#b0c4b1'];
 
-    // Investment Breakdown Data for Signature Model
+    // Investment Breakdown Data for Signature Model (UPDATED)
     const signatureInvestmentData = {
-        labels: [wrapLabels('Initial Inventory', 16), wrapLabels('Showroom Setup Cost', 16), wrapLabels('Lease Advance', 16), wrapLabels('Working Capital Fund', 16), wrapLabels('Inauguration Expenses', 16), wrapLabels('License Fee', 16)],
-        values: [6000000, 2900000, 1200000, 1000000, 1100000, 800000]
+        labels: [wrapLabels('Initial Inventory', 16), wrapLabels('License Fee', 16), wrapLabels('Showroom Setup Cost', 16), wrapLabels('Lease Advance', 16), wrapLabels('Working Capital', 16), wrapLabels('Inauguration Expenses', 16)],
+        values: [6000000, 800000, 2950000, 1200000, 1000000, 1250000] // Values from image_1ab47a.png
     };
 
     // Investment Breakdown Chart
@@ -260,43 +276,70 @@
 
     // ROI Calculation Logic
     const ROI_CONFIG = {
-        totalInvestment: 13000000, // Signature Model Total Initial Investment
-        opexPercent: 0.16, // Fixed at 16%
-        nonOpexPercent: 0.02, // Added as 2%
-        marketingSpendMonthly: 100000, // 1 Lakh monthly marketing spend
-        gpMargin: 0.375, // Maintained at 37.5% (midpoint of 35-40%)
+        totalInvestment: 12000000, // CORRECTED for Signature: 132 Lakhs (from Excel sum) - 12 Lakhs (Refundable Lease Advance)
+        // Derived from your Excel table for general percentages
+        opexPercentInclusive: 0.15, // 15% of Inc. GST Revenue (from Excel)
+        marketingFundPercentInclusive: 0.02, // 2% of Inc. GST Revenue (from Excel)
+        nonOpexPercentInclusive: 0.01, // 1% of Inc. GST Revenue (from Excel)
+        gpMarginInclusive: 0.375, // GP Margin as 37.5% (applied to incl. GST revenue)
         investorProfitShare: 0.70, // Investor's Share of Net Profit is up to 70%.
-        royaltyRate: 0.07, // Royalty is at just 7% of Gross Sales
-        gstRate: 0.18 // Assumed GST rate for calculations (18%)
+        royaltyRateInclusive: 0.07, // Royalty is at 7% of Inc. GST Revenue (from Excel)
+        gstRate: 0.18, // Assumed GST rate for calculations (18%)
     };
 
     const salesScenarios = {
-        average: 5000000, // ₹50 Lakhs/month (Total collected including GST)
-        medium: 7000000, // ₹70 Lakhs/month (Total collected including GST)
-        high: 9000000 // ₹90 Lakhs/month (Total collected including GST)
+        average: 5000000, // ₹50 Lakhs/month (Total collected including GST) - from previous turn
+        medium: 7000000, // ₹70 Lakhs/month (Total collected including GST) - from previous turn
+        high: 9000000 // ₹90 Lakhs/month (Total collected including GST) - from previous turn
     };
 
+    // Derived Net Profit Before Investor Share Rate for Signature Model (from a common Excel logic for these models)
+    // Assuming a similar Net Profit Before Investor Share percentage derived from an Excel equivalent to the Experience Hub's logic.
+    // For 60L monthly sales, Net Profit Before Investor Share = 4119406.78
+    // Annual Revenue (Inclusive GST) = 6000000 * 12 = 72000000
+    // So, Net Profit Before Investor Share Rate (on inclusive revenue) = 4119406.78 / 72000000 = 0.057213983
+    const netProfitBeforeInvestorShareRate = 0.057213983; // This rate is assumed to be consistent across models for simplification if not provided explicitly for Signature.
+
     function calculateROI(monthlyRevenueIncludingGST) {
-        const data = [];
-        let cumulativeProfit = 0;
+        const annualData = []; // For chart (annual points)
+        let cumulativeInvestorProfit = 0;
+        let breakEvenMonth = -1;
 
-        for (let year = 1; year <= 5; year++) {
-            // Calculate annual revenue EXCLUDING GST
-            const annualRevenueExcludingGST = (monthlyRevenueIncludingGST / (1 + ROI_CONFIG.gstRate)) * 12;
+        // Calculate annual Net Profit Before Investor Share based on the derived rate
+        const currentAnnualNetProfitBeforeInvestorShare = monthlyRevenueIncludingGST * 12 * netProfitBeforeInvestorShareRate;
+        
+        // Annual Investor's Share
+        const annualInvestorShare = currentAnnualNetProfitBeforeInvestorShare * ROI_CONFIG.investorProfitShare;
+        
+        // Loop by month to find break-even precisely and accumulate for the chart
+        for (let month = 1; month <= 120; month++) { // Calculate up to 10 years (120 months)
+            const investorShareMonthlyAccrual = annualInvestorShare / 12; // Spread annual share evenly across months
+            cumulativeInvestorProfit += investorShareMonthlyAccrual;
+            
+            if (breakEvenMonth === -1 && cumulativeInvestorProfit >= ROI_CONFIG.totalInvestment) {
+                breakEvenMonth = month;
+            }
 
-            const annualGrossProfit = annualRevenueExcludingGST * ROI_CONFIG.gpMargin;
-            const annualOpex = annualRevenueExcludingGST * ROI_CONFIG.opexPercent;
-            const annualMarketing = ROI_CONFIG.marketingSpendMonthly * 12;
-            const annualNonOpex = annualRevenueExcludingGST * ROI_CONFIG.nonOpexPercent;
-            const annualRoyalty = annualRevenueExcludingGST * ROI_CONFIG.royaltyRate;
-            
-            const annualNetProfit = annualGrossProfit - annualOpex - annualMarketing - annualNonOpex - annualRoyalty;
-            const investorShare = annualNetProfit * ROI_CONFIG.investorProfitShare;
-            
-            cumulativeProfit += investorShare;
-            data.push(cumulativeProfit);
+            if (month % 12 === 0) { // Store annual cumulative profit for chart
+                annualData.push(cumulativeInvestorProfit);
+            }
         }
-        return data;
+
+        const finalCumulativeProfitForDisplay = annualData.length > 0 ? annualData[annualData.length - 1] : 0;
+
+        let breakEvenDisplay = '';
+        if (breakEvenMonth !== -1) {
+            const years = Math.floor(breakEvenMonth / 12);
+            const months = breakEvenMonth % 12;
+            breakEvenDisplay = `${years} years`;
+            if (months > 0) {
+                breakEvenDisplay += ` and ${months} months`;
+            }
+        } else {
+            breakEvenDisplay = 'Beyond 10 years';
+        }
+
+        return { profitData: annualData, breakEvenTime: breakEvenDisplay, cumulativeFinalProfit: finalCumulativeProfitForDisplay };
     }
 
     // ROI Projection Chart
@@ -306,16 +349,28 @@
     function formatCurrency(value) {
         return `₹${(value / 100000).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Lakhs`;
     }
+    function formatPercentage(value) {
+        return `${value.toFixed(2)}%`;
+    }
 
     function updateRoiChart(scenario) {
         const monthlyRevenue = salesScenarios[scenario];
-        const roiData = calculateROI(monthlyRevenue);
-        const cumulativeFinalProfit = roiData[roiData.length - 1];
+        const result = calculateROI(monthlyRevenue);
+        const cumulativeFinalProfit = result.cumulativeFinalProfit; 
+        const breakEvenTime = result.breakEvenTime;
 
-        document.getElementById('cumulativeProfitDisplay').textContent = formatCurrency(cumulativeFinalProfit);
+        const cumulativeProfitDisplayElement = document.getElementById('cumulativeProfitDisplay');
+        const breakEvenDisplayElement = document.getElementById('breakEvenDisplay');
+
+        if (cumulativeProfitDisplayElement) {
+            cumulativeProfitDisplayElement.textContent = formatCurrency(cumulativeFinalProfit);
+        }
+        if (breakEvenDisplayElement) {
+            breakEvenDisplayElement.textContent = breakEvenTime;
+        }
 
         if (roiChart) {
-            roiChart.data.datasets[0].data = roiData;
+            roiChart.data.datasets[0].data = result.profitData;
             roiChart.update();
         } else {
             roiChart = new Chart(roiProjectionCtx, {
@@ -324,9 +379,9 @@
                     labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
                     datasets: [{
                         label: 'Cumulative Investor Profit',
-                        data: roiData,
+                        data: result.profitData,
                         fill: true,
-                        backgroundColor: 'rgba(225, 169, 49, 0.1)', // E1A931 with opacity
+                        backgroundColor: 'rgba(225, 169, 49, 0.1)',
                         borderColor: '#E1A931',
                         borderWidth: 2,
                         tension: 0.4,
@@ -358,7 +413,6 @@
         }
     }
 
-    // Event listeners for ROI scenario buttons
     document.querySelectorAll('.tab-button').forEach(button => {
         button.addEventListener('click', () => {
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
@@ -367,7 +421,6 @@
         });
     });
 
-    // Initial load for ROI chart
     updateRoiChart('average');
 
 </script>
