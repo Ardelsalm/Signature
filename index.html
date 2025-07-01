@@ -47,6 +47,26 @@
             border-color: #044222;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        /* New class for smaller tab buttons in the Key Benefits section */
+        .tab-button-small {
+            background-color: #F0EFEA;
+            color: #044222;
+            border-color: #DCD9D0;
+            padding: 0.5rem 1rem; /* Smaller padding */
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            font-size: 0.9rem; /* Slightly smaller font */
+            flex-grow: 1; /* Allow buttons to grow and fill space */
+            text-align: center;
+        }
+        .tab-button-small.active {
+            background-color: #044222;
+            color: #FFFFFF;
+            border-color: #044222;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
         .financial-table th, .financial-table td {
             padding: 0.5rem 0.75rem;
             border-bottom: 1px solid #e5e7eb;
@@ -87,6 +107,42 @@
             </div>
         </section>
 
+        <!-- New Key Benefits Section (Adapted for Signature Model) -->
+        <section id="key-benefits" class="py-16 px-4 md:px-8 bg-brand-light">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-brand-primary mb-4">Key Investor Benefits</h2>
+                <p class="text-lg text-gray-600 mb-8">Discover the core advantages of partnering with Sabhan Furniture.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+                <div class="flex justify-center space-x-2 sm:space-x-4 mb-6 flex-wrap gap-y-2">
+                    <button class="tab-button-small active" data-tab="benefit1">High ROI</button>
+                    <button class="tab-button-small" data-tab="benefit2">Profit Share</button>
+                    <button class="tab-button-small" data-tab="benefit3">Asset Ownership</button>
+                    <button class="tab-button-small" data-tab="benefit4">Exclusive Offer</button>
+                </div>
+
+                <div id="benefit-content-container" class="text-center text-lg text-gray-700">
+                    <div id="benefit1-content" class="tab-content">
+                        <p class="text-2xl font-bold text-brand-primary">12%+ Return on Your Investment</p>
+                        <p class="mt-2 text-xl">With an initial investment of <span class="font-extrabold text-brand-primary">₹1.32 Crore</span>.</p>
+                    </div>
+                    <div id="benefit2-content" class="tab-content hidden">
+                        <p class="text-2xl font-bold text-brand-primary">Up to 70% Profit Share</p>
+                        <p class="mt-2 text-xl">You, the investor, receive up to 70% of the net profit.</p>
+                    </div>
+                    <div id="benefit3-content" class="tab-content hidden">
+                        <p class="text-2xl font-bold text-brand-primary">Complete Ownership</p>
+                        <p class="mt-2 text-xl">You own the entire branch, including inventory and assets.</p>
+                    </div>
+                    <div id="benefit4-content" class="tab-content hidden">
+                        <p class="text-2xl font-bold text-brand-primary">Limited Time Opportunity</p>
+                        <p class="mt-2 text-xl">Available only on selected locations for the first 5 franchisees.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Model Overview & USPs -->
         <section id="overview" class="py-16 px-4 md:px-8">
             <div class="text-center max-w-4xl mx-auto">
@@ -117,7 +173,7 @@
         <section class="bg-white py-16 px-4 md:px-8">
             <div class="text-center max-w-4xl mx-auto">
                 <h2 class="text-4xl font-bold text-brand-primary mb-4">Signature Showroom: Investment Breakdown</h2>
-                <p class="text-lg text-gray-600 mb-12">Understand where your total initial investment of ₹1.32 Crore is allocated.</p>
+                <p class="text-lg text-gray-600 mb-12">Understand where your total initial investment of <span class="font-extrabold text-brand-primary">₹1.32 Crore</span> is allocated.</p>
             </div>
             <div class="flex justify-center">
                 <div class="chart-container">
@@ -426,6 +482,34 @@
     });
 
     updateRoiChart('average');
+
+    // JavaScript for Key Investor Benefits Tabs (Added for Signature Model)
+    document.addEventListener('DOMContentLoaded', () => {
+        const benefitTabButtons = document.querySelectorAll('#key-benefits .tab-button-small');
+        const benefitContents = document.querySelectorAll('#key-benefits .tab-content');
+
+        function showBenefitTab(tabId) {
+            // Deactivate all buttons
+            benefitTabButtons.forEach(button => button.classList.remove('active'));
+            // Hide all content
+            benefitContents.forEach(content => content.classList.add('hidden'));
+
+            // Activate the clicked button
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+            // Show the corresponding content
+            document.getElementById(`${tabId}-content`).classList.remove('hidden');
+        }
+
+        // Add click listeners to benefit tab buttons
+        benefitTabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                showBenefitTab(button.dataset.tab);
+            });
+        });
+
+        // Initialize the first tab as active on load
+        showBenefitTab('benefit1');
+    });
 
 </script>
 </body>
